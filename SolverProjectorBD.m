@@ -63,7 +63,12 @@ classdef SolverProjectorBD < SolverProjector
             for iter = 1:iter_max
                 obj.iterate();
                 err = mse(obj.tanNormal);
-                obj.report(1,'iter %d -- err: %g    dist: %g    flips: %g   time: %g sec (pD:%d%%, pL:%d%%)\n',iter,err,max(obj.distortions),nnz(obj.flips),obj.t_iter,round(100*obj.t_projectD/obj.t_iter), round(100*obj.t_projectLinear/obj.t_iter));
+                nbFlip = nnz(obj.flips);
+                obj.report(1,'iter %d -- err: %g    dist: %g    flips: %g   time: %g sec (pD:%d%%, pL:%d%%)\n',iter,err,max(obj.distortions),nbFlip,obj.t_iter,round(100*obj.t_projectD/obj.t_iter), round(100*obj.t_projectLinear/obj.t_iter));
+                if nbFlip==0
+                    obj.report(1,'nbFlip = 0 --> stopping...\n');
+                    break;
+                end
                 if err<tol_err
                     obj.report(1,'err<tol_err --> stopping...\n');
                     break;
