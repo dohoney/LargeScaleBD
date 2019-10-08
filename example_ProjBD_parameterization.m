@@ -8,7 +8,7 @@ clear
 addpath('mex');
 
 %% load data: V, F, x0, hdls, K
-load('~/data/D1_LBD_dataset/D1_00005.mat');
+load('~/data/D1_LBD_dataset/D1_00001.mat');
 
 %% parameters
 K = K * 2;
@@ -17,7 +17,6 @@ ub = -1; % upper bound on SVs (-1 = disabled)
 iter_max = 1000; % maximal number of BD projection iterations
 tol_err = 1e-10; % tolerance for stopping BD projection iterations
 use_weighted_metric = false; % use a weighted metric?
-
 
 %% generate problem
 
@@ -40,7 +39,6 @@ cameratoolbar;
 cameratoolbar('SetCoordSys','none');
 title('surface');
 
-
 %% solve problem
 % setup BD solver
 solver_bd = SolverProjectorBD(F, V, eq_lhs, eq_rhs, K, lb, ub, x0, SolverProjectorModeEnum.Tangent, use_weighted_metric);
@@ -50,6 +48,7 @@ figure;
 solver_bd.visualize();
 title('Initial Map');
 hA(1) = gca;
+
 
 % run solver
 solver_bd.solve(iter_max, tol_err); % solve BD projection
@@ -61,3 +60,7 @@ title('Output Map');
 hA(2) = gca;
 
 linkaxes(hA);
+
+% output result vertices
+% y = solver_bd.y;
+% save('~/MEGAsync/tmp/D1_00005.mat','y','F');
