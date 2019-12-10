@@ -8,7 +8,7 @@ clear
 addpath('mex');
 
 %% load data: V, F, x0, hdls, K
-load('~/MEGAsync/tmp/0.mat');
+load('~/data/cube_twist_LBD_dataset/118.mat');
 
 %% parameters
 K = K * 2;
